@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Calculadora - Personalizada</title>
+        <link rel="stylesheet" href="css/styles.css" />
+    </head>
+    <body>
+        <div class="container">
+            <div id="screen" class="screen">
+                <p id="beforeOperation">calculo</p>
+                <p id="screenContent"></p>
+            </div>
+            <div class="buttons">
+                <div class="buttons-cols">
+                    <div class="col col-1">
+                        <button class="delete" onclick="clearScreen()">
+                            <span>CA</span>
+                        </button>
+                        <button onclick="numbers(7)"><span>7</span></button>
+                        <button onclick="numbers(4)"><span>4</span></button>
+                        <button onclick="numbers(1)"><span>1</span></button>
+                        <button onclick="numbers(0)"><span>0</span></button>
+                    </div>
+                    <div class="col col-2">
+                        <button onclick="clearOne()"><span>C</span></button>
+                        <button onclick="numbers(8)"><span>8</span></button>
+                        <button onclick="numbers(5)"><span>5</span></button>
+                        <button onclick="numbers(2)"><span>2</span></button>
+                        <button onclick="numbers('00')"><span>00</span></button>
+                    </div>
+                    <div class="col col-3">
+                        <button onclick="operations('*')"><span>X</span></button>
+                        <button onclick="numbers(9)"><span>9</span></button>
+                        <button onclick="numbers(6)"><span>6</span></button>
+                        <button onclick="numbers(3)"><span>3</span></button>
+                        <button onclick="numbers('.')"><span>.</span></button>
+                    </div>
+                    <div class="col col-4">
+                        <button onclick="operations('/')"><span>/</span></button>
+                        <button onclick="operations('-')"><span>-</span></button>
+                        <button onclick="operations('+')"><span>+</span></button>
+                        <button class="same" onclick="calculate()">
+                            <span>=</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script src="js/app.js"></script>
+</html>
