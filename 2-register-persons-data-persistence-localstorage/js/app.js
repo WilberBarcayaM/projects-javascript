@@ -8,8 +8,6 @@ let people = JSON.parse(localStorage.getItem('people'))?.map(personData => new P
 )) 
     ||[
 
-    // new Person('Wilber', 'Barcaya', 736472, 637647, 'Wilber@gmail.com', 'B. 3 de Abril'),
-    // new Person('Juan', 'Perez', 736472, 637647, 'juan@gmail.com', 'B. 3 de Abril'),
 ];
 
 function listPeople(){
