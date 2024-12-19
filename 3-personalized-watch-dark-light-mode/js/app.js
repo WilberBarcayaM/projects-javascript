@@ -32,3 +32,20 @@ const formatHour = (hour) => {
 } 
 
 setInterval(showWhatch, 1000);
+
+
+const toggleButton = document.getElementById('toggle-mode');
+
+toggleButton.addEventListener('click', () => {
+    const body = document.body;
+
+    if(body.classList.contains('light-mode')){
+        body.classList.replace('light-mode', 'dark-mode');
+        toggleButton.textContent = 'Light Mode';
+    }else{
+        body.classList.replace('dark-mode', 'light-mode');
+        toggleButton.textContent = 'Dark Mode';
+    }
+})
+
+document.body.classList.add('light-mode');
