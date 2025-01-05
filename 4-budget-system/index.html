@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitema de Presupuesto</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    
+</head>
+<body onload="loadApp()">
+    <div class="container">
+        <h1 class="title">Sistema de Presupuesto</h1>
+        <div class="container-block">
+            <div class="budget">
+                <span class="budget-money"><i class="fa-solid fa-sack-dollar"></i></span>
+                <p class="budget-amount amount" id="budget">46439</p>
+                <p class="text-subtitle">Presupuesto</p>
+            </div>
+            <div class="income">
+                <span class="income-money"><i class="fa-solid fa-money-bill-trend-up"></i></i></span>
+                <p class="income-amount amount" id="income">10000</p>
+                <p class="text-subtitle">Ingresos</p>
+            </div>
+            <div class="expense">
+                <span class="expense-money"><i class="fa-solid fa-money-bill-transfer"></i></i></span>
+                <p class="expensive-amount amount" id="expenseMoney">6000</p>
+                <p class="text-subtitle">Gasto</p>
+            </div>
+            <div class="difference">
+                <span class="difference-money"><i class="fa-sharp fa-solid fa-minus"></i></span>
+                <p class="difference-amount amount" id="differenceMoney">320848</p>
+                <p class="text-subtitle">Diferencia</p>
+            </div>
+
+            <div class="graphic-budget-expense">
+                <h3 class="title-left">Presupuesto vs <span>Gasto</span></h3>
+                <div class="graphic">
+                    <canvas id="graphicLine"></canvas>
+                </div>
+            </div>
+
+            <div class="expenditure-progress">
+                <h3 class="title-left">Avance de <span>Gasto</span></h3>
+                <div class="graphic graphic-circle">
+                    <canvas id="graphicCircle"></canvas>
+                    <div class="data-graphic">
+                        <div class="advance">
+                            <h4>Avance</h4>
+                            <p id="advance">2432347</p>
+                        </div>
+                        <div class="graphic-budget">
+                            <h4>Presupuesto</h4>
+                            <p id="budgetCircle">647267</p>
+                        </div>
+                    </div>   
+                </div>
+                
+            </div>             
+        </div>
+        <form action="">
+            <div class="add">
+                <div class="add-container">
+                    <select name="" id="type" class="add-type">
+                        <option value="income" selected>+</option>
+                        <option value="egress">-</option>
+                    </select>
+                    <input type="text" id="description" class="add-description" placeholder="Agregar Descripcion">
+                    <input type="number" id="value" class="add-value" placeholder="Valor" step="any">
+                    <button class="add-btn" onclick="addData()">
+                        <i class="fa-regular fa-circle-check"></i>
+                    </button>
+                </div> 
+            </div>
+        </form>
+
+        <div class="container-data">
+            <div class="income-data">
+                <h2 class="income-title">Ingresos</h2>
+                <div id="income-list">
+                    <!-- Cada elemento de ingresos se incluye aqui -->
+                    <div class="element cleanStyles">
+                        <div class="element-description">Salario</div>
+                        <div class="rigth cleanStyles">
+                            <div class="element-value">+ 2100</div>
+                            <div class="element-delete">
+                                <button class="element-delete-btn">
+                                    <i class="fa-regular fa-circle-xmark" ></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="element cleanStyles">
+                        <div class="element-description">Venta Coche</div>
+                        <div class="rigth cleanStyles">
+                            <div class="element-value">+ 1500</div>
+                            <div class="element-delete">
+                                <button class="element-delete-btn">
+                                    <i class="fa-regular fa-circle-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="egress-data">
+                <h2 class="egress-title">Egresos</h2>
+                <div id="egress-list">
+                    <!-- Cada elemento de egresos se incluye aqui -->
+                    <div class="element cleanStyles">
+                        <div class="element-description">Renta Departamento</div>
+                        <div class="rigth cleanStyles">
+                            <div class="element-value">- 900</div>
+                            <div class="element-percentage">69%</div>
+                            <div class="element-delete">
+                                <button class="element-delete-btn">
+                                    <i class="fa-regular fa-circle-xmark" style="color: #ff5049;"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="element cleanStyles">
+                        <div class="element-description">Ropa</div>
+                        <div class="rigth cleanStyles">
+                            <div class="element-value">- 400</div>
+                            <div class="element-percentage">20%</div>
+                            <div class="element-delete">
+                                <button class="element-delete-btn">
+                                    <i class="fa-regular fa-circle-xmark" style="color: #ff5049;"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/Data.js"></script>
+    <script src="js/Income.js"></script>
+    <script src="js/Egress.js"></script>
+    <script src="js/app.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+
+    <script src="js/graphics.js"></script>
+
+</body>
+</html>
