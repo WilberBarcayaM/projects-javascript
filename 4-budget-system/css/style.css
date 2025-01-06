@@ -11,6 +11,8 @@
     /* background-color: #f2f5fa; */
 }
 
+
+
 .container {
     padding: 0 100px;   
     background-color: #f2f5fa;
@@ -205,16 +207,13 @@ form {
 
 .add-btn i {
     font-size: 35px;
-    background-color: #fff;
-    border-radius: 50%;
+    background-color: #f7f7f7;
     color: #63E6BE;
 }
 
 .add-btn i:hover {
-    background-color: #63E6BE;
-    color: white;
-    border: #63E6BE solid 1px;
-    transition: background-color 0.2s, border 0.2s ;
+    color: #35ca9e;
+    transition: background-color 0.2s ;
 }
 
 .container-data {
@@ -309,3 +308,9 @@ form {
 .element:hover .element-delete-btn { display: block; }
 .element:hover .element-value { transform: translateX(-20px); }
 .element:hover .element-percentage { transform:  translateX(-20px); }
+
+/* .cleanStyles::after {
+    content: '';
+    display: table;
+    clear: both;
+} */

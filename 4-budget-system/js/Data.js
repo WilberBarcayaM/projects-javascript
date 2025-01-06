@@ -5,7 +5,7 @@ class Data{
     }
 
     get description(){
-        return this.description;
+        return this._description;
     }
 
     set description(description){

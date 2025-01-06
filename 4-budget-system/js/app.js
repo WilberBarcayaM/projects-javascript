@@ -1,15 +1,19 @@
 const incomes = [
     new Income('Salario', 2000.00),
     new Income('Venta Coche', 1000),
+    new Income('Cumpleaño', 1000),
 ];
 
 const egress = [
     new Egress('Rena Departamento', 1000),
     new Egress('Ropa', 500),
+    new Egress('Pago de Wifi', 180),
 ];
 
 let loadApp = () => {
     loadHeader();
+    loadIncome();
+    loadEgress();
 }
 
 let totalIncome = () => {
@@ -30,7 +34,6 @@ let totalEgress = () => {
 
 let loadHeader = () => {
     let budget = totalIncome() - totalEgress();
-    let percentageEgress = totalEgress() / totalIncome();
     let differenceMoney = totalIncome() - totalEgress();
 
     document.getElementById('budget').innerHTML = formatCurrency(budget);
@@ -51,6 +54,78 @@ let percentageEgress = (totalEgress() / totalIncome()) * 100;
 const formatCurrency = (value) => {
     return value.toLocaleString('en-US', {style:'currency', currency: 'USD', minimunFractionDigits:2})
 }
+
+const formatPercentage = (value) => {
+    return value.toLocaleString('en-US', {style:'percent', minimunFractionDigits:2})
+}
+
+const loadIncome = () => {
+    let incomeHTML = '';
+    for(let income of incomes){
+        incomeHTML += createIncomeHTML(income);
+    }
+    document.getElementById('incomeList').innerHTML = incomeHTML;
+}
+
+const createIncomeHTML = (income) => {
+    let incomeHTML = `
+                    <div class="element cleanStyles">
+                        <div class="element-description">${income.description}</div>
+                        <div class="rigth cleanStyles">
+                            <div class="element-value">+ ${formatCurrency(income.value)}</div>
+                            <div class="element-delete">
+                                <button class="element-delete-btn">
+                                    <i class="fa-regular fa-circle-xmark" onclick="deleteIncome(${income.id})"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+    `;
+    return incomeHTML;
+}
+
+const deleteIncome = (id) => {
+    let indexDelete = incomes.findIndex(income => income.id === id);
+    incomes.splice(indexDelete, 1);
+    loadHeader();
+    loadIncome();
+}
+
+const loadEgress = () => {
+    let egressHTML = '';
+    for(let expense of egress){
+        egressHTML += createEgressHTML(expense);
+    }
+    document.getElementById('egressList').innerHTML = egressHTML;
+}
+
+const createEgressHTML = (expense) => {
+    let egressHTML = `
+                    <div class="element cleanStyles">
+                        <div class="element-description">${expense.description}</div>
+                        <div class="rigth cleanStyles">
+                            <div class="element-value">- ${formatCurrency(expense.value)}</div>
+                            <div class="element-percentage">${formatPercentage(expense.value / totalIncome())}</div>
+                            <div class="element-delete">
+                                <button class="element-delete-btn">
+                                    <i class="fa-regular fa-circle-xmark" onclick="deleteEgress(${expense.id})"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+    `;
+    return egressHTML;
+}
+
+const deleteEgress = (id) => {
+    let indexEgress = egress.findIndex(expense => egress.id === id);
+    egress.splice(indexEgress, 1);
+    loadHeader();
+    loadEgress();
+} 
+
+
+// Graphics
 
 const graphicLine = document.getElementById("graphicLine");
 
