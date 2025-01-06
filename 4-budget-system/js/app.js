@@ -1,19 +1,23 @@
 const incomes = [
-    new Income('Salario', 2000.00),
-    new Income('Venta Coche', 1000),
-    new Income('Cumpleaño', 1000),
+    new Income('Salario', 200.00, '2024-12-28T08:00:00Z'),
+    new Income('Venta Coche', 300, '2025-01-02T10:30:00Z'),
+    new Income('Venta Computadora', 500, '2025-01-03T10:30:00Z'),
+    new Income('Venta Ropa', 1000, '2025-01-04T10:30:00Z'),
 ];
 
 const egress = [
-    new Egress('Rena Departamento', 1000),
-    new Egress('Ropa', 500),
-    new Egress('Pago de Wifi', 180),
+    new Egress('Renta Departamento', 100, '2024-12-25T12:00:00Z'),
+    new Egress('Ropa', 500, '2025-01-01T14:45:00Z'),
+    new Egress('Pago Wifi', 100, '2025-01-02T14:45:00Z'),
+    new Egress('Pago Agua', 20, '2025-01-03T14:45:00Z'),
 ];
 
 let loadApp = () => {
     loadHeader();
     loadIncome();
     loadEgress();
+    loadGraphicLineData();
+    loadGraphicCircle();
 }
 
 let totalIncome = () => {
@@ -89,6 +93,8 @@ const deleteIncome = (id) => {
     incomes.splice(indexDelete, 1);
     loadHeader();
     loadIncome();
+    loadGraphicLineData();
+    loadGraphicCircle();
 }
 
 const loadEgress = () => {
@@ -118,31 +124,73 @@ const createEgressHTML = (expense) => {
 }
 
 const deleteEgress = (id) => {
-    let indexEgress = egress.findIndex(expense => egress.id === id);
+    let indexEgress = egress.findIndex(expense => expense.id === id);
     egress.splice(indexEgress, 1);
     loadHeader();
     loadEgress();
-} 
+    loadGraphicLineData();
+    loadGraphicCircle();
+}
 
+let addData = () => {
+    let forma = document.forms['forma'];
+    let type = forma['type'];
+    let description = forma['description'];
+    let value = forma['value'];
+    let currentDataTime = new Date().toISOString();
+
+    if(description.value !== '' && value.value !== ''){
+        if(type.value === 'income'){
+            let income = new Income(description.value, +value.value, currentDataTime);
+            incomes.push(income);
+            graphicLine.data.datasets[0].data.push({x: income.date, y: income.value, label: income.description})
+            loadHeader();
+            loadIncome();
+        }
+        else if(type.value === 'egress'){
+            let expense = new Egress(description.value, +value.value, currentDataTime); 
+            egress.push(expense);
+            graphicLine.data.datasets[1].data.push({ x: expense.date, y: expense.value, labe: expense.description });
+            loadHeader();
+            loadEgress();
+        }
+        graphicLine.update();
+        loadGraphicCircle();
+    }
+}
+
+
+// Load initial data into the graphic
+const loadGraphicLineData = () => {
+    graphicLine.data.datasets[0].data = incomes.map(income => ({ x: income.date, y: income.value, label: income.description }));
+    graphicLine.data.datasets[1].data = egress.map(expense => ({ x: expense.date, y: expense.value, label: expense.description }));
+    graphicLine.update();
+}
+
+const loadGraphicCircle = () => {
+    let percentageEgress = (totalEgress() / totalIncome()) * 100;
+    graphicCircle.data.datasets[0].data = [percentageEgress, 100 - percentageEgress];
+    graphicCircle.update();
+}
 
 // Graphics
 
-const graphicLine = document.getElementById("graphicLine");
+const graphicLineElement = document.getElementById("graphicLine");
 
-new Chart(graphicLine, {
+const graphicLine = new Chart(graphicLineElement, {
     type: "line",
     data: {
         datasets: [
             {
                 label: "Ingreso",
                 data: [
-                    { x: "2023-01-01", y: 12 },
-                    { x: "2023-02-01", y: 19 },
-                    { x: "2023-03-01", y: 3 },
-                    { x: "2023-03-01", y: 3 },
-                    { x: "2023-04-01", y: 5 },
-                    { x: "2023-05-01", y: 5 },
-                    { x: "2023-06-01", y: 2 },
+                    // { x: "2023-01-01", y: 12 },
+                    // { x: "2023-02-01", y: 19 },
+                    // { x: "2023-03-01", y: 3 },
+                    // { x: "2023-03-01", y: 3 },
+                    // { x: "2023-04-01", y: 5 },
+                    // { x: "2023-05-01", y: 5 },
+                    // { x: "2023-06-01", y: 2 },
                 ],
                 borderWidth: 1,
                 borderColor: "#64ae5f",
@@ -152,12 +200,12 @@ new Chart(graphicLine, {
             {
                 label: "Egreso",
                 data: [
-                    { x: "2023-01-01", y: 1 },
-                    { x: "2023-02-01", y: 1 },
-                    { x: "2023-03-01", y: 5 },
-                    { x: "2023-04-01", y: 10 },
-                    { x: "2023-05-01", y: 20},
-                    { x: "2023-06-01", y: 30 },
+                    // { x: "2023-01-01", y: 1 },
+                    // { x: "2023-02-01", y: 1 },
+                    // { x: "2023-03-01", y: 5 },
+                    // { x: "2023-04-01", y: 10 },
+                    // { x: "2023-05-01", y: 20},
+                    // { x: "2023-06-01", y: 30 },
                 ],
                 borderWidth: 1,
                 borderColor: "#f9d829",
@@ -176,7 +224,7 @@ new Chart(graphicLine, {
                 time: {
                     unit: 'day',
                     displayFormats: {
-                        quarter: 'DD MMM YYYY'
+                        quarter: 'DD MMM YYYY HH:mm:ss'
                     }
                 },
                 title: {
@@ -185,23 +233,38 @@ new Chart(graphicLine, {
                 }
             },
         },
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        let label = context.dataset.label || '';
+                        if (context.raw.label) {
+                            label += ': ' + context.raw.label + ' - ' + context.raw.y;
+                        } else {
+                            label += ': ' + context.raw.y;
+                        }
+                        return label;
+                    }
+                }
+            }
+        }
     },
 });
 
-const graphicCircle = document.getElementById('graphicCircle');
+const graphicCircleElement = document.getElementById('graphicCircle');
 
-new Chart(graphicCircle, {
+const graphicCircle = new Chart(graphicCircleElement, {
     type: "doughnut",
     data: {
         labels: [
-          'Avance',
+          'Egreso',
           'Presupuesto'
         ],
         datasets: [{
           data: [percentageEgress, 100-percentageEgress],
           backgroundColor: [
+            '#f9d829',
             'green',
-            '#8a8485',
           ],
           hoverOffset: 4,
           rotation: 180,
@@ -215,3 +278,5 @@ new Chart(graphicCircle, {
         },
     },
 });
+
+// loadApp();
