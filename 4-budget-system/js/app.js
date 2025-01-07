@@ -1,4 +1,11 @@
 const incomes = [
+    new Income('Salario', 200.00, '2024-05-28T08:00:00Z'),
+    new Income('Salario', 200.00, '2024-06-28T08:00:00Z'),
+    new Income('Salario', 200.00, '2024-07-28T08:00:00Z'),
+    new Income('Salario', 200.00, '2024-08-28T08:00:00Z'),
+    new Income('Salario', 200.00, '2024-09-28T08:00:00Z'),
+    new Income('Salario', 200.00, '2024-10-28T08:00:00Z'),
+    new Income('Salario', 200.00, '2024-11-28T08:00:00Z'),
     new Income('Salario', 200.00, '2024-12-28T08:00:00Z'),
     new Income('Venta Coche', 300, '2025-01-02T10:30:00Z'),
     new Income('Venta Computadora', 500, '2025-01-03T10:30:00Z'),
@@ -175,6 +182,10 @@ const loadGraphicCircle = () => {
 
 // Graphics
 
+Chart.defaults.locale = 'es-ES';
+
+// moment.locale('es');
+
 const graphicLineElement = document.getElementById("graphicLine");
 
 const graphicLine = new Chart(graphicLineElement, {
@@ -187,10 +198,6 @@ const graphicLine = new Chart(graphicLineElement, {
                     // { x: "2023-01-01", y: 12 },
                     // { x: "2023-02-01", y: 19 },
                     // { x: "2023-03-01", y: 3 },
-                    // { x: "2023-03-01", y: 3 },
-                    // { x: "2023-04-01", y: 5 },
-                    // { x: "2023-05-01", y: 5 },
-                    // { x: "2023-06-01", y: 2 },
                 ],
                 borderWidth: 1,
                 borderColor: "#64ae5f",
@@ -200,9 +207,6 @@ const graphicLine = new Chart(graphicLineElement, {
             {
                 label: "Egreso",
                 data: [
-                    // { x: "2023-01-01", y: 1 },
-                    // { x: "2023-02-01", y: 1 },
-                    // { x: "2023-03-01", y: 5 },
                     // { x: "2023-04-01", y: 10 },
                     // { x: "2023-05-01", y: 20},
                     // { x: "2023-06-01", y: 30 },
@@ -222,9 +226,9 @@ const graphicLine = new Chart(graphicLineElement, {
             x: {
                 type: 'time',
                 time: {
-                    unit: 'day',
+                    unit: 'month',
                     displayFormats: {
-                        quarter: 'DD MMM YYYY HH:mm:ss'
+                        quarter: 'MMM YYYY'
                     }
                 },
                 title: {
